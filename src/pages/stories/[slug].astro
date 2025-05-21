@@ -2,9 +2,12 @@
 import { Astro } from "astro";
 
 export async function getStaticPaths() {
-  const stories = await Astro.glob('../../../content/stories/*.md');
+  const stories = await Astro.glob("../../../content/stories/*.md");
+
   return stories.map((story) => ({
-    params: { slug: story.url.split('/').pop().replace('.md', '') },
+    params: {
+      slug: story.frontmatter.slug || story.file.split('/').pop().replace(".md", ""),
+    },
     props: { story },
   }));
 }
