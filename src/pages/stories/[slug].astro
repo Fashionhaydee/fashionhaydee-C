@@ -1,9 +1,10 @@
 ---
-import { Astro } from 'astro';
-const { slug } = Astro.params;
-const story = await Astro.glob(`../../../content/stories/${slug}.md`);
+const slug = Astro.params.slug;
+const stories = await Astro.glob('../../../content/stories/*.md');
+const story = stories.find((s) => s.url.includes(slug));
 ---
+
 <article>
-  <h1>{story.title}</h1>
-  <div innerHTML={story.body}></div>
+  <h1>{story.frontmatter.title}</h1>
+  <div innerHTML={story.compiledContent()} />
 </article>
